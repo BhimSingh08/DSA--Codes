@@ -1,16 +1,30 @@
 class Solution {
     public boolean backspaceCompare(String s, String t) {
-        return processBackspace(s).equals(processBackspace(t));
-    }
-
-    private String processBackspace(String s){
-        StringBuilder sb = new StringBuilder(s);
-        while(sb.indexOf("#")>=0){
-            if(sb.indexOf("#") == 0)
-                sb.deleteCharAt(0);
-            else
-                sb.delete(sb.indexOf("#")-1, sb.indexOf("#")+1);
+        Stack<Character> str1 = new Stack<>();
+        Stack<Character> str2 = new Stack<>();
+        
+        for (char c : s.toCharArray() )
+        {
+            if (c == '#'){ 
+                if (!str1.isEmpty()) str1.pop();
+            }else str1.push(c);
         }
-        return sb.toString();
+        for (char c : t.toCharArray() )
+        {
+            if (c == '#'){
+                if (!str2.isEmpty()) str2.pop();
+            }else str2.push(c);
+        }
+
+        StringBuilder res1 = new StringBuilder();
+        StringBuilder res2 = new StringBuilder();
+        
+        while(!str1.isEmpty())
+            res1.append(str1.pop());
+        
+        while(!str2.isEmpty())
+            res2.append(str2.pop());
+        
+        return res1.toString().equals(res2.toString());
     }
 }
